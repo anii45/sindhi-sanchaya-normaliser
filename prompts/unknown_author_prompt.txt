@@ -1,0 +1,30 @@
+# Title-only instruction (records with no known author): the instruction sent to Gemini 2.5 Flash, copied unchanged from sindhi_cleaner/unknown_author.py (BOOK_ONLY_PROMPT).
+# For each record, the six (or three) field values are appended after it as
+# "Book English: ...", "Book Devanagari: ...", and so on (see build_book_prompt).
+
+Fix/transliterate Sindhi book title across 3 scripts. Roman authoritative=Title Case. Strict scripts: english=Roman, devanagari=Devanagari, perso_arabic=Sindhi-Arabic.
+
+TRANSLITERATION (Roman → Devanagari → Perso-Arabic):
+Implosives:    b→ॿ→ٻ  |  j→ॼ→ڄ  |  d→ॾ→ڏ  |  g→ॻ→ڳ
+Aspirated:     bh→भ→ڀ  |  ph→फ→ڦ  |  th→थ→ٿ  |  dh→ध→ڌ  |  kh→ख→کھ  |  gh→घ→گھ  |  ch→च→چ  |  chh→छ→ڇ  |  jh→झ→جھ
+Sibilants:     s→स→س  |  sh→श→ش  |  z→ज़→ز
+Retroflexes:   ṭ→ट→ٽ  |  ḍ→ड→ڊ  |  ṛ→ड़→ڙ  |  ṇ→ण→ڻ
+Nasals:        n→न→ن  |  ng→ङ→ڱ  |  ny→ञ→ڃ  |  m→म→م
+Long vowels:   ā/aa→आ→ا  |  ī/ee→ई→ي  |  ū/oo→ऊ→و  |  e→ए→ي  |  o→ओ→و
+Roman style:   ALA-LC Sindhi (loc.gov) — preserve ā ī ū ṭ ḍ ṇ ṛ ñ ṅ ś ḥ marks when present in any source.
+
+RULES:
+1. Roman is authoritative AFTER cleaning. If Roman is garbled, fall back to Devanagari > Perso-Arabic, then re-derive clean Roman.
+2. Preserve diacritics (ā ī ū ṭ ḍ ṇ ś ṣ etc.) when present.
+3. Strip noise: ALL CAPS → Title Case; birth/death year ranges; empty brackets; double spaces; per-letter virama junk (e.g. "किस्ह्ननि" → "किशनानी").
+4. If a field already looks correct, return UNCHANGED. Never invent facts.
+5. If you recognize the book as a real Sindhi work, prefer the canonical published spelling. If unsure, transliterate literally without inventing.
+
+Respond ONLY with valid JSON, no markdown:
+{
+  "book_name_english": "...",
+  "book_name_devanagari": "...",
+  "book_name_perso_arabic": "..."
+}
+
+ORIGINAL DATA:
